@@ -4,6 +4,7 @@
 import { ApolloServer } from "apollo-server";
 import schema from "./userGqlSchema";
 import mongoose from "mongoose";
+import { graphql } from "graphql";
 import MongoMemoryServer from "mongodb-memory-server";
 const mongod = new MongoMemoryServer();
 
@@ -12,16 +13,37 @@ const mongod = new MongoMemoryServer();
   const port = await mongod.getPort();
   const dbPath = await mongod.getDbPath();
   const dbName = await mongod.getDbName();
-  console.log(uri, port, dbPath, dbName);
+  //   console.log(uri, port, dbPath, dbName);
 
   mongoose
     .connect(
       uri,
       { useNewUrlParser: true }
     )
-    .then(() => console.log("DB connected"));
+    .then(async () => {
+      console.log("DB connected");
+      try {
+        const mutationStr = `  mutation{
+            userCreateOne(record:{firstName:"qq"}){
+              recordId
+            }}`;
+        const mutationResult = await graphql(schema, mutationStr);
+        console.log("mutationResult", mutationResult);
+        const queryStr = `query{
+            userOne{
+              _id
+              firstName
+            }
+          }
+          `;
+        const queryResult = await graphql(schema, queryStr);
+        console.log("queryResult", queryResult);
+      } catch (err) {
+        console.log("graphql query error", err);
+      }
+    });
 
-  const server = new ApolloServer(schema);
+  const server = new ApolloServer({ schema });
 
   server.listen().then(({ url }) => {
     console.log("example1 is a working simple user schema");
