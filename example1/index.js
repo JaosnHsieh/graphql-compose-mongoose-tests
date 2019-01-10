@@ -29,14 +29,21 @@ const mongod = new MongoMemoryServer();
             }}`;
         const mutationResult = await graphql(schema, mutationStr);
         console.log("mutationResult", mutationResult);
-        const queryStr = `query{
-            userOne{
-              _id
-              firstName
-            }
+        const queryStr = `query($name:String!){
+            userOne(filter:{firstName:$name}){
+                _id
+              }
           }
           `;
-        const queryResult = await graphql(schema, queryStr);
+        const queryResult = await graphql(
+          schema,
+          queryStr,
+          undefined,
+          undefined,
+          {
+            name: "qq"
+          }
+        );
         console.log("queryResult", queryResult);
       } catch (err) {
         console.log("graphql query error", err);
