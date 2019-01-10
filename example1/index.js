@@ -1,3 +1,6 @@
+/**
+ * start Apollo Server with graphql-compose-mongoose generated schema
+ */
 import { ApolloServer } from "apollo-server";
 import schema from "./userGqlSchema";
 import mongoose from "mongoose";

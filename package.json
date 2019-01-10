@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:example3": "babel-node ./example3/index.js",
     "start:example2": "babel-node ./example2/index.js",
     "start:example1": "babel-node ./example1/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

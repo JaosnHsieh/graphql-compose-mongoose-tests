@@ -1,3 +1,7 @@
+/**
+ * start Apollo Server with graphql-tool generated schema
+ */
+
 import schema from "./graphql-tool-schema";
 const { ApolloServer, gql } = require("apollo-server");
 
