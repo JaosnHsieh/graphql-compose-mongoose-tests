@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:example8": "babel-node ./example8/index.js",
     "start:example7": "babel-node ./example7/index.js",
     "start:example6": "babel-node ./example6/index.js",
     "start:example5": "babel-node ./example5/index.js",
