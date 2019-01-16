@@ -19,7 +19,10 @@ const rootResolvers = {
     posts: author => posts.filter(p => p.authorId === author.id),
   },
   Post: {
-    author: post => authors.find(a => a.id === post.authorId),
+    author: post => {
+      console.log('post author', post);
+      return authors.find(a => a.id === post.authorId);
+    },
   },
 };
 
