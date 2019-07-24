@@ -1,7 +1,24 @@
-import { find, filter } from "lodash";
-import { makeExecutableSchema } from "graphql-tools";
+import { find, filter } from 'lodash';
+import { makeExecutableSchema } from 'graphql-tools';
 
 const typeDefs = `
+  interface Human{
+    id: Int!
+    name: String!
+  }
+  type Man implements Human{
+    id: Int!
+    name: String!
+    isBold: Boolean!
+  }
+
+  type Woman implements Human{
+    id: Int!
+    name: String!
+    isCute: Boolean!
+  }
+
+
   type Author {
     id: Int!
     firstName: String
@@ -20,6 +37,7 @@ const typeDefs = `
   type Query {
     posts: [Post]
     author(id: Int!): Author
+    people: [Human]
   }
 
   # this schema allows the following mutation:
@@ -31,9 +49,28 @@ const typeDefs = `
 `;
 
 const resolvers = {
+  Human: {
+    __resolveType: ({ gender }) => (gender === 0 ? 'Man' : 'Woman'),
+  },
   Query: {
     posts: () => posts,
-    author: (_, { id }) => find(authors, { id: id })
+    author: (_, { id }) => find(authors, { id: id }),
+    people: () => {
+      return [
+        {
+          id: 123,
+          name: `bold man`,
+          isBold: true,
+          gender: 0,
+        },
+        {
+          id: 456,
+          name: `cute woman`,
+          isCute: true,
+          gender: 1,
+        },
+      ];
+    },
   },
   Mutation: {
     upvotePost: (_, { postId }) => {
@@ -43,32 +80,36 @@ const resolvers = {
       }
       post.votes += 1;
       return post;
-    }
+    },
   },
   Author: {
-    posts: author => filter(posts, { authorId: author.id })
+    posts: (...args) => {
+      console.log('...args', ...args);
+      const author = args[0];
+      return filter(posts, { authorId: author.id });
+    },
   },
   Post: {
-    author: post => find(authors, { id: post.authorId })
-  }
+    author: post => find(authors, { id: post.authorId }),
+  },
 };
 
 const authors = [
-  { id: 1, firstName: "Tom", lastName: "Coleman" },
-  { id: 2, firstName: "Sashko", lastName: "Stubailo" },
-  { id: 3, firstName: "Mikhail", lastName: "Novikov" }
+  { id: 1, firstName: 'Tom', lastName: 'Coleman' },
+  { id: 2, firstName: 'Sashko', lastName: 'Stubailo' },
+  { id: 3, firstName: 'Mikhail', lastName: 'Novikov' },
 ];
 
 const posts = [
-  { id: 1, authorId: 1, title: "Introduction to GraphQL", votes: 2 },
-  { id: 2, authorId: 2, title: "Welcome to Apollo", votes: 3 },
-  { id: 3, authorId: 2, title: "Advanced GraphQL", votes: 1 },
-  { id: 4, authorId: 3, title: "Launchpad is Cool", votes: 7 }
+  { id: 1, authorId: 1, title: 'Introduction to GraphQL', votes: 2 },
+  { id: 2, authorId: 2, title: 'Welcome to Apollo', votes: 3 },
+  { id: 3, authorId: 2, title: 'Advanced GraphQL', votes: 1 },
+  { id: 4, authorId: 3, title: 'Launchpad is Cool', votes: 7 },
 ];
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 export default schema;
