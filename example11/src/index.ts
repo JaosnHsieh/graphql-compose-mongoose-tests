@@ -3,12 +3,13 @@ import { ApolloServer } from 'apollo-server';
 import * as path from 'path';
 import { buildSchema } from 'type-graphql';
 
-import { RecipeResolver } from './recipe-resolver';
+import { AuthorResolver } from './author-resolver';
+import { PostResolver } from './post-resolver';
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
-    resolvers: [RecipeResolver],
+    resolvers: [AuthorResolver, PostResolver],
     // automatically create `schema.gql` file with schema definition in current folder
     emitSchemaFile: path.resolve(__dirname, 'schema.gql'),
   });
