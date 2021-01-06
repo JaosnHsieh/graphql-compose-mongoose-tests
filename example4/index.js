@@ -25,28 +25,12 @@ console.log(`* run in sequencely
 * npm run start:example4
 */`);
 import schema from "./graphql-tool-schema";
-import {
-  introspectSchema,
-  makeRemoteExecutableSchema,
-  mergeSchemas
-} from "graphql-tools";
-import { HttpLink } from "apollo-link-http";
-import fetch from "node-fetch";
 
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer} = require("apollo-server");
 
 (async () => {
-  const introspectionResult = await introspectSchema(
-    new HttpLink({ uri: "http://localhost:4000", fetch })
-  );
-
-  const schema2 = await makeRemoteExecutableSchema({
-    schema: introspectionResult,
-    link: new HttpLink({ uri: "http://localhost:4000", fetch })
-  });
-
-  const schema3 = mergeSchemas({ schemas: [schema, schema2] });
-  const server = new ApolloServer({ schema: schema3 });
+  
+  const server = new ApolloServer({ schema });
 
   server.listen(3001).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
