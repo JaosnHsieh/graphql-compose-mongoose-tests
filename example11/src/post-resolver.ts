@@ -1,26 +1,17 @@
-import {
-  Resolver,
-  Query,
-  FieldResolver,
-  Arg,
-  Root,
-  Mutation,
-  Float,
-  Int,
-  ResolverInterface,
-} from 'type-graphql';
-import { plainToClass } from 'class-transformer';
-
+import { Resolver, Query, FieldResolver, Root } from 'type-graphql';
 import { Post } from './post-type';
-// import { Po } from './post-input';
-// import { createRecipeSamples } from './recipe-samples';
+import { Author } from './author-type';
+import { createPostSamples } from './post-samples';
+import { createAuthorSamples } from './author-samples';
 
 @Resolver((of) => Post)
-export class PostResolver implements ResolverInterface<Post> {
-  // private readonly items: Recipe[] = createRecipeSamples();
-
+export class PostResolver {
   @Query((returns) => [Post], { nullable: true })
   async posts(): Promise<Post[] | undefined> {
-    return [];
+    return createPostSamples();
+  }
+  @FieldResolver()
+  author(@Root() post: Post): Author {
+    return createAuthorSamples().find((a) => a.id === post.authorId);
   }
 }

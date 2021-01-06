@@ -3,36 +3,30 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
+"""Object representing cooking recipe"""
+type Author {
+  """first name desc"""
+  firstName: String
+  id: Float!
 
-type Mutation {
-  addRecipe(recipe: RecipeInput!): Recipe!
+  """last name desc"""
+  lastName: String
+
+  """name"""
+  name: String
+  posts: [Post!]!
+}
+
+"""Object representing post"""
+type Post {
+  author: Author!
+  id: Float!
+  title: String!
+  votes: Int!
 }
 
 type Query {
-  recipe(title: String!): Recipe
-
-  """Get all the recipes from around the world """
-  recipes: [Recipe!]!
-}
-
-"""Object representing cooking recipe"""
-type Recipe {
-  averageRating: Float
-  creationDate: DateTime!
-
-  """The recipe description with preparation info"""
-  description: String
-  ratings: [Int!]!
-  ratingsCount(minRate: Int = 0): Int!
-  specification: String @deprecated(reason: "Use `description` field instead")
-  title: String!
-}
-
-input RecipeInput {
-  description: String
-  title: String!
+  """Get all the authors """
+  authors: [Author!]!
+  posts: [Post!]
 }

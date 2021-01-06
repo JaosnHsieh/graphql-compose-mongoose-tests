@@ -1,26 +1,26 @@
-import { plainToClass } from "class-transformer";
+import { plainToClass } from 'class-transformer';
 
-import { Recipe } from "./recipe-type";
+import { Post } from './post-type';
 
-export function createRecipeSamples() {
-  return plainToClass(Recipe, [
+export function createPostSamples() {
+  return plainToClass(Post, [
     {
-      description: "Desc 1",
-      title: "Recipe 1",
-      ratings: [0, 3, 1],
-      creationDate: new Date("2018-04-11"),
+      id: 1,
+      title: 'post 1 title',
+      votes: 1,
+      authorId: 2,
     },
     {
-      description: "Desc 2",
-      title: "Recipe 2",
-      ratings: [4, 2, 3, 1],
-      creationDate: new Date("2018-04-15"),
+      id: 2,
+      title: 'post 2 title',
+      votes: 99,
+      authorId: 4,
     },
     {
-      description: "Desc 3",
-      title: "Recipe 3",
-      ratings: [5, 4],
-      creationDate: new Date(),
+      id: 3,
+      title: 'post 3 title',
+      votes: 199,
+      authorId: 2,
     },
   ]);
 }

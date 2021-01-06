@@ -1,27 +1,33 @@
 import {
   Resolver,
   Query,
-  FieldResolver,
-  Arg,
-  Root,
-  Mutation,
-  Float,
-  Int,
   ResolverInterface,
+  FieldResolver,
+  Root,
 } from 'type-graphql';
-import { plainToClass } from 'class-transformer';
-
+import { Post } from './post-type';
+import { createPostSamples } from './post-samples';
+import { createAuthorSamples } from './author-samples';
 import { Author } from './author-type';
-import { AuthorInput } from './author-input';
-// import { createRecipeSamples } from './author-samples';
 
 @Resolver((of) => Author)
 export class AuthorResolver implements ResolverInterface<Author> {
-  // private readonly items: Recipe[] = createRecipeSamples();
   @Query((returns) => [Author], {
     description: 'Get all the authors ',
   })
   async authors(): Promise<Author[]> {
-    return [];
+    const authors = createAuthorSamples();
+    console.log(`$ AuthorResolver authors %o`, authors);
+    return authors;
+  }
+  @FieldResolver()
+  name(@Root() author: Author): string {
+    return author.firstName + author.lastName;
+  }
+  @FieldResolver()
+  posts(@Root() author: Author): Post[] {
+    return author.postIds.map((id) =>
+      createPostSamples().find((p) => p.id === id),
+    );
   }
 }

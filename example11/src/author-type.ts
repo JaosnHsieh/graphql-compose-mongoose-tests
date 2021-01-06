@@ -3,7 +3,7 @@ import { Post } from './post-type';
 @ObjectType({ description: 'Object representing cooking recipe' })
 export class Author {
   @Field()
-  id: string;
+  id: number;
 
   @Field({
     nullable: true,
@@ -17,6 +17,14 @@ export class Author {
   })
   lastName: string;
 
+  @Field({
+    nullable: true,
+    description: 'name',
+  })
+  name: string;
+
   @Field((_type) => [Post])
   posts: Post[];
+
+  postIds?: number[];
 }

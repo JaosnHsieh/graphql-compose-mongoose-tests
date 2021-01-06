@@ -14,4 +14,6 @@ export class Post {
 
   @Field((type) => Int)
   votes: number;
+
+  authorId?: number;
 }
