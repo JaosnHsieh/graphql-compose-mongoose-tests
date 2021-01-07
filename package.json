@@ -27,7 +27,7 @@
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "apollo-link-http": "^1.5.9",
-    "apollo-server": "^2.3.1",
+    "apollo-server": "^2.14.2",
     "graphql": "14.0.0",
     "graphql-compose": "^5.0.2",
     "graphql-compose-mongoose": "^5.2.1",
