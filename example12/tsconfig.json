@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "typeRoots": ["./types"],
+      "target": "es2018",
+      "module": "commonjs",
+      "outDir": "dist",
+      "lib": ["es2018", "esnext.asynciterable", "DOM"],
+      "strict": false,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true
+    },
+    "include": ["src"]
+  }
+  
